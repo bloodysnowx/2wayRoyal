@@ -1,6 +1,10 @@
 from org.sikuli.basics.proxies import Vision
 Vision.setParameter("MinTargetSize", 8)
 
+# Settings.MinSimilarity = 0.99
+
+import time
+
 def uncheckHoldAll(region):
     while region.exists("hold.png"):
         uncheckHold(region)
@@ -11,21 +15,31 @@ def uncheckHold(region):
 def clickDouble(region):
     region.click("double.png")
 
-def setupRegion():
+def getWindow():
     switchApp("2 Ways Royal")
     return App.focusedWindow()
+
+def getRegion():
+    gameWindow = getWindow()
+    return Region(gameWindow.getX() + gameWindow.getW() / 5, gameWindow.getY() + gameWindow.getH() / 2, gameWindow.getW() * 11 / 20, gameWindow.getH() / 4)
     
 def main():
-    region = setupRegion()
+    region = getRegion()
+    print(region)
     uncheckHoldAll(region)
+    start = time.time()
     hand = readHand(region)
+    end = time.time()
+    print(start)
+    print(end)
+    print(end - start)
     print(hand)
 
 def readHand(region):
     hand = []
     for suit in ["s", "h", "d", "c"]:
         for rank in ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"]:
-            m = region.exists(suit + rank + ".png")
+            m = region.exists(suit + rank + ".png", 0.001)
             if m:
                 if m.getScore() > 0.99:
                     hand.append([suit, rank, m.getTarget()])

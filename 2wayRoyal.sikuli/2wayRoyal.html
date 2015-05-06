@@ -73,6 +73,10 @@
 <span class="kw">from</span> org.sikuli.basics.proxies <span class="kw">import</span> Vision
 Vision.setParameter(<span class="str">"MinTargetSize"</span>, <span class="dig">8</span>)
 
+<span class="cmt"># Settings.MinSimilarity = 0.99
+</span>
+<span class="kw">import</span> time
+
 <span class="kw">def</span> uncheckHoldAll(region):
     <span class="kw">while</span> region.exists(<img src="hold.png" />):
         uncheckHold(region)
@@ -83,21 +87,31 @@ Vision.setParameter(<span class="str">"MinTargetSize"</span>, <span class="dig">
 <span class="kw">def</span> clickDouble(region):
     region.<span class="skw">click</span>(<img src="double.png" />)
 
-<span class="kw">def</span> setupRegion():
+<span class="kw">def</span> getWindow():
     switchApp(<span class="str">"2 Ways Royal"</span>)
     <span class="kw">return</span> App.focusedWindow()
 
+<span class="kw">def</span> getRegion():
+    gameWindow = getWindow()
+    <span class="kw">return</span> Region(gameWindow.getX() + gameWindow.getW() / <span class="dig">5</span>, gameWindow.getY() + gameWindow.getH() / <span class="dig">2</span>, gameWindow.getW() * <span class="dig">11</span> / <span class="dig">20</span>, gameWindow.getH() / <span class="dig">4</span>)
+
 <span class="kw">def</span> main():
-    region = setupRegion()
+    region = getRegion()
+    <span class="kw">print</span>(region)
     uncheckHoldAll(region)
+    start = time.time()
     hand = readHand(region)
+    end = time.time()
+    <span class="kw">print</span>(start)
+    <span class="kw">print</span>(end)
+    <span class="kw">print</span>(end - start)
     <span class="kw">print</span>(hand)
 
 <span class="kw">def</span> readHand(region):
     hand = []
     <span class="kw">for</span> suit <span class="kw">in</span> [<span class="str">"s"</span>, <span class="str">"h"</span>, <span class="str">"d"</span>, <span class="str">"c"</span>]:
         <span class="kw">for</span> rank <span class="kw">in</span> [<span class="str">"01"</span>, <span class="str">"02"</span>, <span class="str">"03"</span>, <span class="str">"04"</span>, <span class="str">"05"</span>, <span class="str">"06"</span>, <span class="str">"07"</span>, <span class="str">"08"</span>, <span class="str">"09"</span>, <span class="str">"10"</span>, <span class="str">"11"</span>, <span class="str">"12"</span>, <span class="str">"13"</span>]:
-            m = region.exists(suit + rank + <img src=".png" />)
+            m = region.exists(suit + rank + <img src=".png" />, <span class="dig">0.001</span>)
             <span class="kw">if</span> m:
                 <span class="kw">if</span> m.getScore() &gt; <span class="dig">0.99</span>:
                     hand.append([suit, rank, m.getTarget()])
