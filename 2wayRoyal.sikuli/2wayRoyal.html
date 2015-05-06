@@ -70,41 +70,109 @@
 <h2>2wayRoyal.sikuli\2wayRoyal.sikuli</h2> <a href="2wayRoyal.sikuli\2wayRoyal.zip">(Download this script)</a>
 </div>
 <pre class="sikuli-code">
-<span class="kw">def</span> uncheckHoldAll():
-    <span class="kw">while</span> exists(<img src="hold.png" />):
-        uncheckHold()
+<span class="kw">from</span> org.sikuli.basics.proxies <span class="kw">import</span> Vision
+Vision.setParameter(<span class="str">"MinTargetSize"</span>, <span class="dig">8</span>)
 
-<span class="skw">find</span>(<img src="1430923273477.png" />)
+<span class="kw">def</span> uncheckHoldAll(region):
+    <span class="kw">while</span> region.exists(<img src="hold.png" />):
+        uncheckHold(region)
 
-<span class="kw">def</span> uncheckHold():
-    <span class="skw">click</span>(<img src="hold.png" />)
+<span class="kw">def</span> uncheckHold(region):
+    region.<span class="skw">click</span>(<img src="hold.png" />)
+
+<span class="kw">def</span> clickDouble(region):
+    region.<span class="skw">click</span>(<img src="double.png" />)
+
+<span class="kw">def</span> setupRegion():
+    switchApp(<span class="str">"2 Ways Royal"</span>)
+    <span class="kw">return</span> App.focusedWindow()
 
 <span class="kw">def</span> main():
-    uncheckHoldAll()
+    region = setupRegion()
+    uncheckHoldAll(region)
+    hand = readHand(region)
+    <span class="kw">print</span>(hand)
+
+<span class="kw">def</span> readHand(region):
+    hand = []
+    <span class="kw">for</span> suit <span class="kw">in</span> [<span class="str">"s"</span>, <span class="str">"h"</span>, <span class="str">"d"</span>, <span class="str">"c"</span>]:
+        <span class="kw">for</span> rank <span class="kw">in</span> [<span class="str">"01"</span>, <span class="str">"02"</span>, <span class="str">"03"</span>, <span class="str">"04"</span>, <span class="str">"05"</span>, <span class="str">"06"</span>, <span class="str">"07"</span>, <span class="str">"08"</span>, <span class="str">"09"</span>, <span class="str">"10"</span>, <span class="str">"11"</span>, <span class="str">"12"</span>, <span class="str">"13"</span>]:
+            m = region.exists(suit + rank + <img src=".png" />)
+            <span class="kw">if</span> m:
+                <span class="kw">if</span> m.getScore() &gt; <span class="dig">0.99</span>:
+                    hand.append([suit, rank, m.getTarget()])
+                    <span class="kw">if</span> len(hand) == <span class="dig">5</span>:
+                        <span class="kw">return</span> hand
+    <span class="kw">return</span> hand
 
 main()
 
+<span class="cmt"># High Royal -&gt; Pat
+</span><span class="cmt"># Low Royal -&gt; Pat
+</span><span class="cmt"># Straight Flush -&gt; Pat
+</span><span class="cmt"># 4 of a Kind -&gt; Pat
+</span><span class="cmt"># Full House -&gt; Pat
+</span><span class="cmt"># 4 to a Royal(TJQA,  TJQK, TJKA, TQKA JQKA) -&gt; Hold 4
+</span><span class="cmt"># 4 to a Low Royal(2345, 2346, 2356, 2456, 3456) -&gt; Hold 4
+</span><span class="cmt"># Flush -&gt; Pat
+</span><span class="cmt"># Straight -&gt; Pat
+</span><span class="cmt"># 3 of a Kind -&gt; Hold 3
+</span><span class="cmt"># 2 Pair -&gt; Hold 4
+</span><span class="cmt"># 4 to a Straight Flush -&gt; Hold 4
+</span><span class="cmt"># 1 Pair(JJ-AA) -&gt; Hold 2
+</span><span class="cmt"># 3 to a Royal(TJA, TJQ, TJK, TQA, TQK, TKA, JQA, JQK, JKA, QKA) -&gt; Hold 3
+</span><span class="cmt"># 3 to a Low Royal
+</span><span class="cmt"># 4 to a Flush
+</span><span class="cmt"># 4 to a Straight(TJQK)
+</span><span class="cmt"># 1 Pair(22-TT)
+</span><span class="cmt"># 4 to a Straight(2345-9TJQ)
+</span><span class="cmt"># 3 to a Straight Flush(89J; 8TJ; 8JQ; 9TJ; 9TQ; 9JQ)
+</span><span class="cmt"># 4 to a Straight(JQKA)
+</span><span class="cmt"># 3 to a Straight Flush(9JK; 9QK)
+</span><span class="cmt"># 2 to a Royal(JA; JQ; JK; QK)
+</span><span class="cmt"># 3 to a Straight Flush(567; 678; 789; 89T)
+</span><span class="cmt"># 2 to a Royal(QA; KA)
+</span><span class="cmt"># 4 to a Straight(9JQK; TJQA; TJKA; TQKA)
+</span><span class="cmt"># 3 to a Straight(JQK)
+</span><span class="cmt"># 2 to a Straight(JQ)
+</span><span class="cmt"># 3 to a Straight Flush(A23; A24; A25; A34; A35; A45; 568; 578; 689; 78J; 79J; 7TJ; 89Q; 8TQ; 9TK)
+</span><span class="cmt"># ex 2 to a Royal(TJ)
+</span><span class="cmt"># 2 to a Straight(JK)
+</span><span class="cmt"># 2 to a Royal(TJ)
+</span><span class="cmt"># 3 to a Straight Flush(457; 467; 679; 78T; 79T)
+</span><span class="cmt"># 2 to a Straight(JA; QK)
+</span><span class="cmt"># 2 to a Straight(KA)
+</span><span class="cmt"># ex 2 to Royal(TQ)
+</span><span class="cmt"># 2 to a Straight(QA)
+</span><span class="cmt"># 2 to a Royal(TQ)
+</span><span class="cmt"># ex 2 to a Royal(TK)
+</span><span class="cmt"># Single Card(J-A)
+</span><span class="cmt"># 3 to a Straight Flush(347; 357; 367; 458; 468; 478; 569; 579; 589; 67T; 68T; 69T)
+</span><span class="cmt"># ex Garbage Discard everything
+</span><span class="cmt"># 2 to a Straight Flush(45; 56)
+</span><span class="cmt"># Garbage Discard everything
+</span>
 <span class="cmt">#spade
-</span><span class="skw">find</span>(<img src="1430922759575.png" />), <span class="skw">find</span>(<img src="1430922431125.png" />), <span class="skw">find</span>(<img src="1430921284341.png" />), <span class="skw">find</span>(<img src="1430921605376.png" />), <span class="skw">find</span>(<img src="1430922132727.png" />),
-<span class="skw">find</span>(<img src="1430921791540.png" />), <span class="skw">find</span>(<img src="1430921623833.png" />), <span class="skw">find</span>(<img src="1430923646722.png" />), <span class="skw">find</span>(<img src="1430921638562.png" />), <span class="skw">find</span>(<img src="1430922233424.png" />),
-<span class="skw">find</span>(<img src="1430922323606.png" />), <span class="skw">find</span>(<img src="1430922293238.png" />), <span class="skw">find</span>(<img src="1430923021260.png" />)
-
+</span><span class="cmt">#find("s01.png"), find("s02.png"), find("s03.png"), find("s04.png"), find("s05.png"), 
+</span><span class="cmt">#find("s06.png"), find("s07.png"), find("s08.png"), find("s09.png"), find("s10.png"), 
+</span><span class="cmt">#find("s11.png"), find("s12.png"), find("s13.png")
+</span>
 <span class="cmt">#heart
-</span><span class="skw">find</span>(<img src="1430923222514.png" />), <span class="skw">find</span>(<img src="1430922783737.png" />), <span class="skw">find</span>(<img src="1430923433813.png" />), <span class="skw">find</span>(<img src="1430922528041.png" />), <span class="skw">find</span>(<img src="1430921685258.png" />),
-<span class="skw">find</span>(<img src="1430922016342.png" />), <span class="skw">find</span>(<img src="1430922345777.png" />), <span class="skw">find</span>(<img src="1430923521352.png" />), <span class="skw">find</span>(<img src="1430922736352.png" />), <span class="skw">find</span>(<img src="1430923607028.png" />),
-<span class="skw">find</span>(<img src="1430921310741.png" />), <span class="skw">find</span>(<img src="1430922661172.png" />), <span class="skw">find</span>(<img src="1430922034521.png" />)
-
+</span><span class="cmt">#find("h01.png"), find("h02.png"), find("h03.png"), find("h04.png"), find("h05.png"),
+</span><span class="cmt">#find("h06.png"), find("h07.png"), find("h08.png"), find("h09.png"), find("h10.png"),
+</span><span class="cmt">#find("h11.png"), find("h12.png"), find("h13.png")
+</span>
 
 <span class="cmt">#diamond
-</span><span class="skw">find</span>(<img src="1430923686687.png" />), <span class="skw">find</span>(<img src="1430923093340.png" />), <span class="skw">find</span>(<img src="1430923490246.png" />), <span class="skw">find</span>(<img src="1430923202031.png" />), <span class="skw">find</span>(<img src="1430922505158.png" />),
-<span class="skw">find</span>(<img src="1430922407870.png" />), <span class="skw">find</span>(<img src="1430922816578.png" />), <span class="skw">find</span>(<img src="1430923158021.png" />), <span class="skw">find</span>(<img src="1430922202282.png" />), <span class="skw">find</span>(<img src="1430922371686.png" />),
-<span class="skw">find</span>(<img src="1430922180133.png" />), <span class="skw">find</span>(<img src="1430921822521.png" />), <span class="skw">find</span>(<img src="1430922162987.png" />)
-
+</span><span class="cmt">#find("d01.png"), find("d02.png"), find("d03.png"), find("d04.png"), find("d05.png"),
+</span><span class="cmt">#find("d06.png"), find("d07.png"), find("d08.png"), find("d09.png"), find("d10.png"),
+</span><span class="cmt">#find("d11.png"), find("d12.png"), find("d13.png")
+</span>
 
 <span class="cmt">#club
-</span><span class="skw">find</span>(<img src="1430921711828.png" />), <span class="skw">find</span>(<img src="1430922061428.png" />), <span class="skw">find</span>(<img src="1430922701510.png" />), <span class="skw">find</span>(<img src="1430921667958.png" />), <span class="skw">find</span>(<img src="1430921447628.png" />),
-<span class="skw">find</span>(<img src="1430922480852.png" />), <span class="skw">find</span>(<img src="1430922620461.png" />), <span class="skw">find</span>(<img src="1430921769857.png" />), <span class="skw">find</span>(<img src="1430921463208.png" />), <span class="skw">find</span>(<img src="1430921476756.png" />),
-<span class="skw">find</span>(<img src="1430923358331.png" />), <span class="skw">find</span>(<img src="1430922550561.png" />), <span class="skw">find</span>(<img src="1430922566170.png" />)
+</span><span class="cmt">#find("c01.png"), find("c02.png"), find("c03.png"), find("c04.png"), find("c05.png"),
+</span><span class="cmt">#find("c06.png"), find("c07.png"), find("c08.png"), find("c09.png"), find("c10.png"),
+</span><span class="cmt">#find("c11.png"), find("c12.png"), find("c13.png")</span>
 </pre>
 </body>
 </html>
