@@ -58,8 +58,51 @@ class HandTest(unittest.TestCase):
         hand = Hand([['s', '11', 0], ['s', '08', 0], ['d', '11', 0], ['s', '09', 0], ['c', '10', 0]])
         self.assertFalse(hand.isStraight())
 
+    def test_getCountOfRank(self):
+        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertEqual(hand.getCountOfRank(), [4, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0])
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertEqual(hand.getCountOfRank(), [3, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0])
 
+    def test_is4OfAKind(self):
+        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertTrue(hand.is4OfAKind())
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertFalse(hand.is4OfAKind())
 
+    def test_isFullHouse(self):
+        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertFalse(hand.isFullHouse())
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertTrue(hand.isFullHouse())
+
+    def test_is3OfAKind(self):
+        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertFalse(hand.is3OfAKind())
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertFalse(hand.is3OfAKind())
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '05', 0]])
+        self.assertTrue(hand.is3OfAKind())
+
+    def test_is2Pair(self):
+        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
+        self.assertTrue(hand.is2Pair())
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertFalse(hand.is2Pair())
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '03', 0], ['h', '04', 0], ['c', '05', 0]])
+        self.assertFalse(hand.is2Pair())
+
+    def test_is1Pair(self):
+        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
+        self.assertFalse(hand.is1Pair())
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+        self.assertFalse(hand.is1Pair())
+        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '03', 0], ['h', '04', 0], ['c', '05', 0]])
+        self.assertTrue(hand.is1Pair())
+
+    def test_getCountOfSuit(self):
+        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
+        self.assertEqual(hand.getCountOfSuit(), [1, 1, 1, 2])
 
 if __name__ == '__main__':
     unittest.main()
