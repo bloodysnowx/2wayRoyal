@@ -1,12 +1,16 @@
+PATH = getBundlePath()
+if not PATH in sys.path: sys.path.append(PATH)
+execfile(PATH + 'strategy.py')
+execfile(PATH + 'hand.py')
+
 from org.sikuli.basics.proxies import Vision
-Vision.setParameter("MinTargetSize", 8)
 
-# Settings.MinSimilarity = 0.99
-
-import time
+def setup():
+    Vision.setParameter("MinTargetSize", 8)
+    Settings.MoveMouseDelay = 0
 
 def uncheckHoldAll(region):
-    while region.exists("hold.png"):
+    while region.exists("hold.png", 0.001):
         uncheckHold(region)
 
 def uncheckHold(region):
@@ -19,23 +23,25 @@ def getWindow():
     switchApp("2 Ways Royal")
     return App.focusedWindow()
 
-def getRegion():
+def getCardArea():
     gameWindow = getWindow()
-    return Region(gameWindow.getX() + gameWindow.getW() / 5, gameWindow.getY() + gameWindow.getH() / 2, gameWindow.getW() * 11 / 20, gameWindow.getH() / 4)
+    x = gameWindow.getX() + gameWindow.getW() / 5
+    y = gameWindow.getY() + gameWindow.getH() / 2
+    width = gameWindow.getW() * 11 / 20
+    height = gameWindow.getH() / 4
+    return Region(x, y, width, height)
     
 def main():
-    region = getRegion()
-    print(region)
-    uncheckHoldAll(region)
-    start = time.time()
-    hand = readHand(region)
-    end = time.time()
-    print(start)
-    print(end)
-    print(end - start)
-    print(hand)
+    setup()
+    # gameWindow = getWindow()
+    # region = getCardArea()
+    # uncheckHoldAll(region)
+    # hand = readHand(region)
+    strategy = Strategy()
+    # holdHands = strategy.execute(hand)
 
 def readHand(region):
+
     hand = []
     for suit in ["s", "h", "d", "c"]:
         for rank in ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"]:
@@ -44,55 +50,11 @@ def readHand(region):
                 if m.getScore() > 0.99:
                     hand.append([suit, rank, m.getTarget()])
                     if len(hand) == 5:
-                        return hand
-    return hand
+                        return Hand(hand)
+    return Hand(hand)
     
 main()
 
-# High Royal -> Pat
-# Low Royal -> Pat
-# Straight Flush -> Pat
-# 4 of a Kind -> Pat
-# Full House -> Pat
-# 4 to a Royal(TJQA,  TJQK, TJKA, TQKA JQKA) -> Hold 4
-# 4 to a Low Royal(2345, 2346, 2356, 2456, 3456) -> Hold 4
-# Flush -> Pat
-# Straight -> Pat
-# 3 of a Kind -> Hold 3
-# 2 Pair -> Hold 4
-# 4 to a Straight Flush -> Hold 4
-# 1 Pair(JJ-AA) -> Hold 2
-# 3 to a Royal(TJA, TJQ, TJK, TQA, TQK, TKA, JQA, JQK, JKA, QKA) -> Hold 3
-# 3 to a Low Royal
-# 4 to a Flush
-# 4 to a Straight(TJQK)
-# 1 Pair(22-TT)
-# 4 to a Straight(2345-9TJQ)
-# 3 to a Straight Flush(89J; 8TJ; 8JQ; 9TJ; 9TQ; 9JQ)
-# 4 to a Straight(JQKA)
-# 3 to a Straight Flush(9JK; 9QK)
-# 2 to a Royal(JA; JQ; JK; QK)
-# 3 to a Straight Flush(567; 678; 789; 89T)
-# 2 to a Royal(QA; KA)
-# 4 to a Straight(9JQK; TJQA; TJKA; TQKA)
-# 3 to a Straight(JQK)
-# 2 to a Straight(JQ)
-# 3 to a Straight Flush(A23; A24; A25; A34; A35; A45; 568; 578; 689; 78J; 79J; 7TJ; 89Q; 8TQ; 9TK)
-# ex 2 to a Royal(TJ)
-# 2 to a Straight(JK)
-# 2 to a Royal(TJ)
-# 3 to a Straight Flush(457; 467; 679; 78T; 79T)
-# 2 to a Straight(JA; QK)
-# 2 to a Straight(KA)
-# ex 2 to Royal(TQ)
-# 2 to a Straight(QA)
-# 2 to a Royal(TQ)
-# ex 2 to a Royal(TK)
-# Single Card(J-A)
-# 3 to a Straight Flush(347; 357; 367; 458; 468; 478; 569; 579; 589; 67T; 68T; 69T)
-# ex Garbage Discard everything
-# 2 to a Straight Flush(45; 56)
-# Garbage Discard everything
 
 #spade
 #find("s01.png"), find("s02.png"), find("s03.png"), find("s04.png"), find("s05.png"), 
