@@ -58,6 +58,14 @@ class HandTest(unittest.TestCase):
         hand = Hand([['s', '11', 0], ['s', '08', 0], ['d', '11', 0], ['s', '09', 0], ['c', '10', 0]])
         self.assertFalse(hand.isStraight())
 
+    def test_isStraightFlush(self):
+        hand = Hand([['s', '02', 0], ['s', '03', 0], ['d', '05', 0], ['s', '01', 0], ['c', '04', 0]])
+        self.assertFalse(hand.isStraightFlush())
+        hand = Hand([['s', '01', 0], ['s', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
+        self.assertTrue(hand.isStraightFlush())
+        hand = Hand([['s', '08', 0], ['s', '12', 0], ['s', '09', 0], ['s', '11', 0], ['s', '10', 0]])
+        self.assertTrue(hand.isStraightFlush())
+
     def test_getCountOfRank(self):
         hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
         self.assertEqual(hand.getCountOfRank(), [4, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0])

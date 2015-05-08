@@ -40,6 +40,9 @@ class Hand:
         startIndex = self.countOfRank.index(1)
         return self.isAHighStraight() or self.countOfRank[startIndex:startIndex + 5] == [1, 1, 1, 1, 1]
 
+    def isStraightFlush(self):
+        return self.isFlush() and self.isStraight()
+
     def getCountOfRank(self):
         return map(lambda rank: len(filter(lambda card: card.rank == rank, self.cards)), ranks)
     
