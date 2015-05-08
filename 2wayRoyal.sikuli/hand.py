@@ -47,16 +47,16 @@ class Hand:
         return self.sortedCountOfRank[0] == 4
 
     def isFullHouse(self):
-        return self.sortedCountOfRank[0] == 3 and self.sortedCountOfRank[1] == 2
+        return self.sortedCountOfRank[0:2] == [3, 2]
 
     def is3OfAKind(self):
-        return self.sortedCountOfRank[0] == 3 and self.sortedCountOfRank[1] == 1 and self.sortedCountOfRank[2] == 1
+        return self.sortedCountOfRank[0:3] == [3, 1, 1]
 
     def is2Pair(self):
-        return self.sortedCountOfRank[0] == 2 and self.sortedCountOfRank[1] == 2 and self.sortedCountOfRank[2] == 1
+        return self.sortedCountOfRank[0:3] == [2, 2, 1]
 
     def is1Pair(self):
-        return self.sortedCountOfRank[0] == 2 and self.sortedCountOfRank[1] == 1 and self.sortedCountOfRank[2] == 1 and self.sortedCountOfRank[3] == 1
+        return self.sortedCountOfRank[0:4] == [2, 1, 1, 1]
 
 class Card:
     def __init__(self, suit, rank, pos):
