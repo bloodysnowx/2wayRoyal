@@ -93,12 +93,11 @@ class HandTest(unittest.TestCase):
         self.assertEqual(map(lambda hand: hand.get2Pair(), [s4cAdAhAc4, s4cAd3h4c5]), [False, False])
 
     def test_is1Pair(self):
-        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
-        self.assertFalse(hand.is1Pair())
-        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
-        self.assertFalse(hand.is1Pair())
-        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '03', 0], ['h', '04', 0], ['c', '05', 0]])
-        self.assertTrue(hand.is1Pair())
+        self.assertEqual(map(lambda hand: hand.is1Pair(), [sAcAd2h2c4, s4cAdAhAc4, s4cAd3h4c5]), [False, False, True])
+
+    def test_get1Pair(self):
+        self.assertEqual(map(lambda hand: hand.get1Pair(), [sAcAd2h2c4, s4cAdAhAc4]), [False, False])
+        self.assertCardsEqual(s4cAd3h4c5.get1Pair(), [['s', '04'], ['h', '04']])
 
     def test_getCountOfSuit(self):
         hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])

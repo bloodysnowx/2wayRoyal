@@ -80,6 +80,12 @@ class Hand:
     def is1Pair(self):
         return self.sortedCountOfRank[0:4] == [2, 1, 1, 1]
 
+    def get1Pair(self):
+        if self.is1Pair():
+            return self.getXrankCards(ranks[self.countOfRank.index(2)])
+        else:
+            return False
+
     def get4toXranksFlush(self, xRanks):
         for suit in suits:
             hits = flatten(map(lambda rank: filter(lambda card: card.isEqual(suit, rank), self.cards), xRanks))
