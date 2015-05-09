@@ -59,14 +59,23 @@ class Hand:
     def is3OfAKind(self):
         return self.sortedCountOfRank[0:3] == [3, 1, 1]
 
+    def getXrankCards(self, rank):
+        return filter(lambda card: card.rank == rank, self.cards)
+    
     def get3OfAKind(self):
         if self.is3OfAKind():
-            return filter(lambda card: card.rank == ranks[self.countOfRank.index(3)], self.cards)
+            return self.getXrankCards(ranks[self.countOfRank.index(3)])
         else:
             return False
 
     def is2Pair(self):
         return self.sortedCountOfRank[0:3] == [2, 2, 1]
+
+    def get2Pair(self):
+        if self.is2Pair():
+            return flatten([self.getXrankCards(ranks[self.countOfRank.index(2)]), self.getXrankCards(ranks[len(ranks) - 1 - list(reversed(self.countOfRank)).index(2)])])
+        else:
+            return False
 
     def is1Pair(self):
         return self.sortedCountOfRank[0:4] == [2, 1, 1, 1]

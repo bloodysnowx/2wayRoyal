@@ -4,14 +4,14 @@ from hand import Hand
 sAs2s3s4s5 = Hand([['s', '01', 0], ['s', '02', 0], ['s', '03', 0], ['s', '04', 0], ['s', '05', 0]])
 sAsQsKsJsT = Hand([['s', '01', 0], ['s', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
 sAhAdAcAc4 = Hand([['s', '01', 0], ['h', '01', 0], ['d', '01', 0], ['c', '01', 0], ['c', '04', 0]])
+sAcAd2h2c4 = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
 sAcQsKsJsT = Hand([['s', '01', 0], ['c', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
 s4cAdAhAc4 = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
 s4cAdAhAc5 = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '05', 0]])
+s4cAd3h4c5 = Hand([['s', '04', 0], ['c', '01', 0], ['d', '03', 0], ['h', '04', 0], ['c', '05', 0]])
 s9cQsKsJsT = Hand([['s', '09', 0], ['c', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
 s9sQsKsJsT = Hand([['s', '09', 0], ['s', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
 cAs2s3s4s5 = Hand([['c', '01', 0], ['s', '02', 0], ['s', '03', 0], ['s', '04', 0], ['s', '05', 0]])
-
-
 
 class HandTest(unittest.TestCase):
     def test_isFlush(self):
@@ -94,12 +94,14 @@ class HandTest(unittest.TestCase):
         self.assertCardsEqual(s4cAdAhAc5.get3OfAKind(), [['c', '01'], ['d', '01'], ['h', '01']])
 
     def test_is2Pair(self):
-        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
-        self.assertTrue(hand.is2Pair())
-        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
-        self.assertFalse(hand.is2Pair())
-        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '03', 0], ['h', '04', 0], ['c', '05', 0]])
-        self.assertFalse(hand.is2Pair())
+        self.assertTrue(sAcAd2h2c4.is2Pair())
+        self.assertFalse(s4cAdAhAc4.is2Pair())
+        self.assertFalse(s4cAd3h4c5.is2Pair())
+
+    def test_get2Pair(self):
+        self.assertCardsEqual(sAcAd2h2c4.get2Pair(), [['s', '01'], ['c', '01'], ['d', '02'], ['h', '02']])
+        self.assertFalse(s4cAdAhAc4.get2Pair())
+        self.assertFalse(s4cAd3h4c5.get2Pair())
 
     def test_is1Pair(self):
         hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
