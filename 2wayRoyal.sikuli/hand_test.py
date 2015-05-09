@@ -20,8 +20,14 @@ s4cAdAhAc4 = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0
 s4cAdAhAc5 = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '05', 0]])
 s4cAd3h4c5 = Hand([['s', '04', 0], ['c', '01', 0], ['d', '03', 0], ['h', '04', 0], ['c', '05', 0]])
 
+s5s8dJs9cT = Hand([['s', '05', 0], ['s', '08', 0], ['d', '11', 0], ['s', '09', 0], ['c', '10', 0]])
+
+s7s8dJs9cT = Hand([['s', '07', 0], ['s', '08', 0], ['d', '11', 0], ['s', '09', 0], ['c', '10', 0]])
+
 s9cQsKsJsT = Hand([['s', '09', 0], ['c', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
 s9sQsKsJsT = Hand([['s', '09', 0], ['s', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
+
+sJs8dJs9cT = Hand([['s', '11', 0], ['s', '08', 0], ['d', '11', 0], ['s', '09', 0], ['c', '10', 0]])
 
 sQsKdJsAcT = Hand([['s', '12', 0], ['s', '13', 0], ['d', '11', 0], ['s', '01', 0], ['c', '10', 0]])
 
@@ -45,15 +51,7 @@ class HandTest(unittest.TestCase):
         self.assertEqual(map(lambda hand: hand.isLowRoyal(), [s2s3s5s6s4, c2d3s5h6h4, s2s3s5sAs4]), [True, False, False])
 
     def test_isStraight(self):
-        self.assertTrue(s2s3d5sAc4.isStraight())
-        self.assertFalse(s2s3dKsAc4.isStraight())
-        self.assertTrue(sQsKdJsAcT.isStraight())
-        hand = Hand([['s', '07', 0], ['s', '08', 0], ['d', '11', 0], ['s', '09', 0], ['c', '10', 0]])
-        self.assertTrue(hand.isStraight())
-        hand = Hand([['s', '05', 0], ['s', '08', 0], ['d', '11', 0], ['s', '09', 0], ['c', '10', 0]])
-        self.assertFalse(hand.isStraight())
-        hand = Hand([['s', '11', 0], ['s', '08', 0], ['d', '11', 0], ['s', '09', 0], ['c', '10', 0]])
-        self.assertFalse(hand.isStraight())
+        self.assertEqual(map(lambda hand: hand.isStraight(), [s2s3d5sAc4, s2s3dKsAc4, sQsKdJsAcT, s7s8dJs9cT, s5s8dJs9cT, sJs8dJs9cT]), [True, False, True, True, False, False])
 
     def test_isStraightFlush(self):
         hand = Hand([['s', '02', 0], ['s', '03', 0], ['d', '05', 0], ['s', '01', 0], ['c', '04', 0]])
