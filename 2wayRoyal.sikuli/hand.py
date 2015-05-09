@@ -2,7 +2,11 @@ suits = ["s", "h", "d", "c"]
 ranks = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"]
 #from itertools import chain
 #aHighRanks = list(chain.from_iterable([[ranks[0]], ranks[9:13]]))
-aHighRanks = [item for sublist in [[ranks[0]], ranks[9:]] for item in sublist]
+
+def flatten(list):
+    return [item for sublist in list for item in sublist]
+
+aHighRanks = flatten([[ranks[0]], ranks[9:]])
 
 class Hand:
     def __init__(self, cards):
@@ -55,11 +59,30 @@ class Hand:
     def is3OfAKind(self):
         return self.sortedCountOfRank[0:3] == [3, 1, 1]
 
+    def get3OfAKind(self):
+        if self.is3OfAKind():
+            return filter(lambda card: card.rank == ranks[self.countOfRank.index(3)], self.cards)
+        else:
+            return False
+
     def is2Pair(self):
         return self.sortedCountOfRank[0:3] == [2, 2, 1]
 
     def is1Pair(self):
         return self.sortedCountOfRank[0:4] == [2, 1, 1, 1]
+
+    def get4toXranksFlush(self, xRanks):
+        for suit in suits:
+            hits = flatten(map(lambda rank: filter(lambda card: card.isEqual(suit, rank), self.cards), xRanks))
+            if len(hits) == 4:
+                return hits
+        return False
+        
+    def get4toHighRoyal(self):
+        return self.get4toXranksFlush(aHighRanks)
+        
+    def get4toLowRoyal(self):
+        return self.get4toXranksFlush(ranks[1:6])
 
 class Card:
     def __init__(self, suit, rank, pos):
@@ -69,3 +92,6 @@ class Card:
 
     def __str__(self):
         return "suit: " + self.suit + ", rank:" + self.rank + ", pos:" + str(self.pos)
+
+    def isEqual(self, suit, rank):
+        return self.suit == suit and self.rank == rank

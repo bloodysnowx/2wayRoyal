@@ -1,12 +1,17 @@
 import unittest
 from hand import Hand
 
-cAs2s3s4s5 = Hand([['c', '01', 0], ['s', '02', 0], ['s', '03', 0], ['s', '04', 0], ['s', '05', 0]])
 sAs2s3s4s5 = Hand([['s', '01', 0], ['s', '02', 0], ['s', '03', 0], ['s', '04', 0], ['s', '05', 0]])
-sAcQsKsJsT = Hand([['s', '01', 0], ['c', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
 sAsQsKsJsT = Hand([['s', '01', 0], ['s', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
+sAhAdAcAc4 = Hand([['s', '01', 0], ['h', '01', 0], ['d', '01', 0], ['c', '01', 0], ['c', '04', 0]])
+sAcQsKsJsT = Hand([['s', '01', 0], ['c', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
+s4cAdAhAc4 = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
+s4cAdAhAc5 = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '05', 0]])
 s9cQsKsJsT = Hand([['s', '09', 0], ['c', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
 s9sQsKsJsT = Hand([['s', '09', 0], ['s', '12', 0], ['s', '13', 0], ['s', '11', 0], ['s', '10', 0]])
+cAs2s3s4s5 = Hand([['c', '01', 0], ['s', '02', 0], ['s', '03', 0], ['s', '04', 0], ['s', '05', 0]])
+
+
 
 class HandTest(unittest.TestCase):
     def test_isFlush(self):
@@ -79,12 +84,14 @@ class HandTest(unittest.TestCase):
         self.assertTrue(hand.isFullHouse())
 
     def test_is3OfAKind(self):
-        hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
-        self.assertFalse(hand.is3OfAKind())
-        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '04', 0]])
-        self.assertFalse(hand.is3OfAKind())
-        hand = Hand([['s', '04', 0], ['c', '01', 0], ['d', '01', 0], ['h', '01', 0], ['c', '05', 0]])
-        self.assertTrue(hand.is3OfAKind())
+        self.assertFalse(sAhAdAcAc4.is3OfAKind())
+        self.assertFalse(s4cAdAhAc4.is3OfAKind())
+        self.assertTrue(s4cAdAhAc5.is3OfAKind())
+
+    def test_get3OfAKind(self):
+        self.assertFalse(sAhAdAcAc4.get3OfAKind())
+        self.assertFalse(s4cAdAhAc4.get3OfAKind())
+        self.assertCardsEqual(s4cAdAhAc5.get3OfAKind(), [['c', '01'], ['d', '01'], ['h', '01']])
 
     def test_is2Pair(self):
         hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
@@ -105,6 +112,19 @@ class HandTest(unittest.TestCase):
     def test_getCountOfSuit(self):
         hand = Hand([['s', '01', 0], ['c', '01', 0], ['d', '02', 0], ['h', '02', 0], ['c', '04', 0]])
         self.assertEqual(hand.getCountOfSuit(), [1, 1, 1, 2])
+        
+    def assertCardsEqual(self, cards, list):
+        self.assertEqual(len(cards), len(list))
+        [self.assertTrue(card.isEqual(expected[0], expected[1])) for (card, expected) in zip(cards, list)]
+
+    def test_get4toHighRoyal(self):
+        self.assertCardsEqual(sAcQsKsJsT.get4toHighRoyal(), [['s', '01'], ['s', '10'], ['s', '11'], ['s', '13']])
+        self.assertFalse(cAs2s3s4s5.get4toHighRoyal())
+
+    def test_get4toLowRoyal(self):
+        self.assertFalse(sAcQsKsJsT.get4toLowRoyal())
+        self.assertCardsEqual(cAs2s3s4s5.get4toLowRoyal(), [['s', '02'], ['s', '03'], ['s', '04'], ['s', '05']])
+        
 
 if __name__ == '__main__':
     unittest.main()

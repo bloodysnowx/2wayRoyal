@@ -79,9 +79,10 @@ execfile(PATH + <span class="str">'hand.py'</span>)
 
 <span class="kw">def</span> setup():
     Vision.setParameter(<span class="str">"MinTargetSize"</span>, <span class="dig">8</span>)
-    Settings.MoveMouseDelay = <span class="dig">0</span>
+    Settings.MoveMouseDelay = <span class="dig">0.1</span>
 
 <span class="kw">def</span> uncheckHoldAll(region):
+    <span class="skw">find</span>(<img src="hold.png" />)
     <span class="kw">while</span> region.exists(<img src="hold.png" />, <span class="dig">0.001</span>):
         uncheckHold(region)
 
@@ -104,11 +105,12 @@ execfile(PATH + <span class="str">'hand.py'</span>)
     <span class="kw">return</span> Region(x, y, width, height)
 
 <span class="kw">def</span> main():
+    <span class="skw">popup</span>(<span class="str">"start"</span>)
     setup()
-    <span class="cmt"># gameWindow = getWindow()
-</span>    <span class="cmt"># region = getCardArea()
-</span>    <span class="cmt"># uncheckHoldAll(region)
-</span>    <span class="cmt"># hand = readHand(region)
+    gameWindow = getWindow()
+    region = getCardArea()
+    uncheckHoldAll(region)
+    <span class="cmt"># hand = readHand(region)
 </span>    strategy = Strategy()
     <span class="cmt"># holdHands = strategy.execute(hand)
 </span>
@@ -127,7 +129,6 @@ execfile(PATH + <span class="str">'hand.py'</span>)
 
 main()
 
-
 <span class="cmt">#spade
 </span><span class="cmt">#find("s01.png"), find("s02.png"), find("s03.png"), find("s04.png"), find("s05.png"), 
 </span><span class="cmt">#find("s06.png"), find("s07.png"), find("s08.png"), find("s09.png"), find("s10.png"), 
@@ -138,13 +139,11 @@ main()
 </span><span class="cmt">#find("h06.png"), find("h07.png"), find("h08.png"), find("h09.png"), find("h10.png"),
 </span><span class="cmt">#find("h11.png"), find("h12.png"), find("h13.png")
 </span>
-
 <span class="cmt">#diamond
 </span><span class="cmt">#find("d01.png"), find("d02.png"), find("d03.png"), find("d04.png"), find("d05.png"),
 </span><span class="cmt">#find("d06.png"), find("d07.png"), find("d08.png"), find("d09.png"), find("d10.png"),
 </span><span class="cmt">#find("d11.png"), find("d12.png"), find("d13.png")
 </span>
-
 <span class="cmt">#club
 </span><span class="cmt">#find("c01.png"), find("c02.png"), find("c03.png"), find("c04.png"), find("c05.png"),
 </span><span class="cmt">#find("c06.png"), find("c07.png"), find("c08.png"), find("c09.png"), find("c10.png"),
