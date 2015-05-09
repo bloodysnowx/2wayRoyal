@@ -99,6 +99,13 @@ class Hand:
     def get4toLowRoyal(self):
         return self.get4toXranksFlush(ranks[1:6])
 
+    def get4toStraightFlush(self):
+        for xRanks in (map(lambda i: ranks[i:i+5], range(9)) + [aHighRanks]):
+            ret = self.get4toXranksFlush(xRanks)
+            if ret != False:
+                return ret
+        return False
+
 class Card:
     def __init__(self, suit, rank, pos):
         self.suit = suit
