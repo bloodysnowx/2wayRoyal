@@ -112,5 +112,84 @@ class HandTest(unittest.TestCase):
         self.assertCardsEqual(sAcQsKsJsT.get4toStraightFlush(), [['s', '01'], ['s', '10'], ['s', '11'], ['s', '13']])
         self.assertCardsEqual(cAs2s3s4s5.get4toStraightFlush(), [['s', '02'], ['s', '03'], ['s', '04'], ['s', '05']])
 
+    def test_isJackOrBetter(self):
+        return True
+
+    def test_get3toHighRoyal(self):
+        return True
+
+    def test_get3toLowRoyal(self):
+        return True
+
+    def test_get4toFlush(self):
+        return True
+
+    def test_getTJQK(self):
+        return True
+
+    def test_getOESD(self):
+        return True
+
+    def test_get3toStraightFlushA(self):
+        return True
+
+    def test_getJQKA(self):
+        return True
+
+    def test_get3toStraightFlushB(self):
+        return True
+
+    def test_get2toHighRoyalA(self):
+        return True
+
+    def test_get3toStraightFlushC(self):
+        return True
+
+    #2 to a Royal Flush 	QA; KA
+    def test_get2toHighRoyalA(self):
+        return False
+
+    #4 to a Straight 	9JQK; TJQA; TJKA; TQKA
+    def test_get4toStraightA(self):
+        return False
+    
+    #3 to a Straight 	JQK
+    def test_getJQK(self):
+        return False
+    #2 to a Straight 	JQ
+    def test_getJQ(self):
+        return False
+    #3 to a Straight Flush 	A23; A24; A25; A34; A35; A45; 568; 578; 689; 78J; 79J; 7TJ; 89Q; 8TQ; 9TK
+    def test_get3toStraightFlushD(self):
+        return False
+    #2 to a Straight 	JK
+    def test_getJK(self):
+        return False
+    #2 to a Royal Flush 	TJ
+    def test_getTJsuited(self):
+        return False
+    #3 to a Straight Flush 	457; 467; 679; 78T; 79T
+    def test_get3toStraightFlushE(self):
+        return False
+    #2 to a Straight 	JA; QK
+    def test_getJAorQK(self):
+        return False
+    #2 to a Straight 	QA; KA
+    def test_getQAorKA(self):
+        return False
+    #2 to a Royal Flush 	TQ
+    def test_getTQsuited(self):
+        return False
+    #Single Card 	a Jack; a Queen; a King; an Ace
+    def test_getSingleJackOrBetter(self):
+        return False
+    #3 to a Straight Flush 	347; 357; 367; 458; 468; 478; 569; 579; 589; 67T; 68T; 69T
+    def test_get3toStraightFlushF(self):
+        return False
+    #2 to a Straight Flush 	45; 56
+    def test_get45or56suited(self):
+        return False
+    
+
 if __name__ == '__main__':
     unittest.main()
