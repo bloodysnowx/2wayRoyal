@@ -185,21 +185,40 @@ class Hand:
 
     #2 to a Royal Flush 	QA; KA
     def get2toHighRoyalA(self):
+        for xRanks in [[ranks[11], ranks[0]], [ranks[12], ranks[0]]]:
+            ret = self.getXtoYranksFlush(2, xRanks)
+            if ret != False:
+                return ret
         return False
 
     #4 to a Straight 	9JQK; TJQA; TJKA; TQKA
     def get4toStraightA(self):
+        for xRanks in [[ranks[8]] + ranks[10:], ranks[9:12] + [ranks[0]], ranks[9:11] + [ranks[12]] + [ranks[0]], [ranks[9]] + ranks[11:] + [ranks[0]]]:
+            ret = self.getXtoYranks(4, xRanks)
+            if ret != False:
+                return ret
         return False
     
     #3 to a Straight 	JQK
     def getJQK(self):
-        return False
+        return self.getXtoYranks(3, ranks[10:])
+
     #2 to a Straight 	JQ
     def getJQ(self):
-        return False
-    #3 to a Straight Flush 	A23; A24; A25; A34; A35; A45; 568; 578; 689; 78J; 79J; 7TJ; 89Q; 8TQ; 9TK
+        return self.getXtoYranks(2, ranks[10:12])
+
+    #3 to a Straight Flush 	A23; A24; A25; A34; A35;
+    # A45; 568; 578; 689; 78J;
+    # 79J; 7TJ; 89Q; 8TQ; 9TK
     def get3toStraightFlushD(self):
+        for xRanks in [ranks[:3], ranks[:2] + ranks[3:4], ranks[:2] + ranks[4:5], ranks[0:1] + ranks[2:4], [ranks[0], ranks[2], ranks[4]],
+                       ranks[0:1] + ranks[3:5], ranks[4:6] + ranks[7:8], ranks[4:5] + ranks[6:8], ranks[5:6] + ranks[7:9], ranks[6:8] + ranks[10:11],
+                       [ranks[6], ranks[8], ranks[10]], ranks[6:7] + ranks[9:11], ranks[7:9] + ranks[11:12], [ranks[7], ranks[9], ranks[11]], ranks[8:10], ranks[12:]]:
+            ret = self.getXtoYranksFlush(3, xRanks)
+            if ret != False:
+                return ret
         return False
+
     #2 to a Straight 	JK
     def getJK(self):
         return False
