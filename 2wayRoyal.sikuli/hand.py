@@ -221,30 +221,59 @@ class Hand:
 
     #2 to a Straight 	JK
     def getJK(self):
-        return False
+        return self.getXtoYranks(2, [ranks[10], ranks[12]])
+    
     #2 to a Royal Flush 	TJ
     def getTJsuited(self):
-        return False
+        return self.getXtoYranksFlush(2, ranks[9:11])
+    
     #3 to a Straight Flush 	457; 467; 679; 78T; 79T
     def get3toStraightFlushE(self):
+        for xRanks in [ranks[3:5] + ranks[6:7], ranks[3:4] + ranks[5:7], ranks[5:7] + ranks[8:9], ranks[6:8] + ranks[9:10], ranks[6:7] + ranks[8:10]]:
+            ret = self.getXtoYranksFlush(3, xRanks)
+            if ret != False:
+                return ret
         return False
+    
     #2 to a Straight 	JA; QK
     def getJAorQK(self):
+        for xRanks in [[ranks[10], ranks[0]], ranks[11:13]]:
+            ret = self.getXtoYranks(2, xRanks)
+            if ret != False:
+                return ret
         return False
+    
     #2 to a Straight 	QA; KA
     def getQAorKA(self):
+        for xRanks in [[ranks[11], ranks[0]], [ranks[12], ranks[0]]]:
+            ret = self.getXtoYranks(2, xRanks)
+            if ret != False:
+                return ret
         return False
+
     #2 to a Royal Flush 	TQ
     def getTQsuited(self):
-        return False
+        return self.getXtoYranksFlush(2, [ranks[9], ranks[11]])
     #Single Card 	a Jack; a Queen; a King; an Ace
     def getSingleJackOrBetter(self):
+        for xRanks in [[ranks[0]], [ranks[12]], [ranks[11]], [ranks[10]]]:
+            ret = self.getXtoYranks(1, xRanks)
+            if ret != False:
+                return ret
         return False
     #3 to a Straight Flush 	347; 357; 367; 458; 468; 478; 569; 579; 589; 67T; 68T; 69T
     def get3toStraightFlushF(self):
+        for xRanks in [ranks[2:4] + ranks[6:7], [ranks[2], ranks[4], ranks[6]], ranks[2:3] + ranks[5:7], ranks[3:5] + ranks[7:8], [ranks[3], ranks[5], ranks[7]], ranks[3:4] + ranks[6:8], ranks[4:6] + ranks[8:9], [ranks[4], ranks[6], ranks[8]], ranks[4:5] + ranks[7:9], ranks[5:7] + ranks[9:10], [ranks[5], ranks[7], ranks[9]], ranks[5:6] + ranks[8:10]]:
+            ret = self.getXtoYranksFlush(3, xRanks)
+            if ret != False:
+                return ret
         return False
     #2 to a Straight Flush 	45; 56
     def get45or56suited(self):
+        for xRanks in [ranks[3:5], ranks[4:6]]:
+            ret = self.getXtoYranksFlush(2, xRanks)
+            if ret != False:
+                return ret
         return False
     
 class Card:
