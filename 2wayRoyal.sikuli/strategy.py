@@ -1,25 +1,60 @@
-class Strategy:
-    def execute(hand):
-        return True
+class BasicStrategy:
+    def execute(self, hand):
+        # High Royal -> Pat
+        if hand.isHighRoyal():
+            return hand.cards
+        # Low Royal -> Pat
+        if hand.isLowRoyal():
+            return hand.cards
+        # Straight Flush -> Pat
+        if hand.isStraightFlush():
+            return hand.cards
+        # 4 of a Kind -> Pat
+        if hand.is4OfAKind():
+            return hand.cards
+        # Full House -> Pat
+        if hand.isFullHouse():
+            return hand.cards
+        # 4 to a Royal(TJQA,  TJQK, TJKA, TQKA JQKA) -> Hold 4
+        ret = hand.get4HighRoyal()
+        if ret != False:
+            return ret
+        # 4 to a Low Royal(2345, 2346, 2356, 2456, 3456) -> Hold 4
+        ret = hand.get4LowRoyal()
+        if ret != False:
+            return ret
+        # Flush -> Pat
+        if hand.isFlush():
+            return hand.cards
+        # Straight -> Pat
+        if hand.isStraight():
+            return hand.cards
+        # 3 of a Kind -> Hold 3
+        ret = hand.get3OfAKind()
+        if ret != False:
+            return ret
+        # 2 Pair -> Hold 4
+        ret = hand.get2Pair()
+        if ret != False:
+            return ret
+        # 4 to a Straight Flush -> Hold 4
+        ret = hand.get4toStraightFlush()
+        if ret != False:
+            return ret
+        # 1 Pair(JJ-AA) -> Hold 2
+        if hand.isJackOrBetter():
+            return hand.get1Pair()
+        # 3 to a Royal(TJA, TJQ, TJK, TQA, TQK, TKA, JQA, JQK, JKA, QKA) -> Hold 3
+        # 3 to a Low Royal
+        # 4 to a Flush
+        # 4 to a Straight(TJQK)
+        # 1 Pair(22-TT)
+
+        return []
     
-# High Royal -> Pat
-# Low Royal -> Pat
-# Straight Flush -> Pat
-# 4 of a Kind -> Pat
-# Full House -> Pat
-# 4 to a Royal(TJQA,  TJQK, TJKA, TQKA JQKA) -> Hold 4
-# 4 to a Low Royal(2345, 2346, 2356, 2456, 3456) -> Hold 4
-# Flush -> Pat
-# Straight -> Pat
-# 3 of a Kind -> Hold 3
-# 2 Pair -> Hold 4
-# 4 to a Straight Flush -> Hold 4
-# 1 Pair(JJ-AA) -> Hold 2
-# 3 to a Royal(TJA, TJQ, TJK, TQA, TQK, TKA, JQA, JQK, JKA, QKA) -> Hold 3
-# 3 to a Low Royal
-# 4 to a Flush
-# 4 to a Straight(TJQK)
-# 1 Pair(22-TT)
+
+
+
 # 4 to a Straight(2345-9TJQ)
 # 3 to a Straight Flush(89J; 8TJ; 8JQ; 9TJ; 9TQ; 9JQ)
 # 4 to a Straight(JQKA)

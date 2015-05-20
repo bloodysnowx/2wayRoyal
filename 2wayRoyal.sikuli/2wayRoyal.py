@@ -32,14 +32,18 @@ def getCardArea():
     return Region(x, y, width, height)
     
 def main():
-    popup("start")
     setup()
     gameWindow = getWindow()
     region = getCardArea()
     uncheckHoldAll(region)
-    # hand = readHand(region)
-    strategy = Strategy()
-    # holdHands = strategy.execute(hand)
+    hand = readHand(region)
+    strategy = BasicStrategy()
+    holdHand = strategy.execute(hand)
+    hold(holdHand)
+
+def hold(hands):
+    for hand in hands:
+        click(hand.pos)
 
 def readHand(region):
 
@@ -49,7 +53,7 @@ def readHand(region):
             m = region.exists(suit + rank + ".png", 0.001)
             if m:
                 if m.getScore() > 0.99:
-                    hand.append([suit, rank, m.getTarget()])
+                    hand.append([suit, rank, m])
                     if len(hand) == 5:
                         return Hand(hand)
     return Hand(hand)
