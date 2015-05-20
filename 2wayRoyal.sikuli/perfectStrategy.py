@@ -131,10 +131,20 @@ class PerfectStrategy:
         ret = hand.getJK()
         if ret != False:
             return ret
-        # 3 to a Straight Flush(457; 467; 679; 78T; 79T)
-        ret = hand.get3toStraightFlushE()
+        # ex 3 to a Straight Flush(679)
+        ret = hand.get679suited()
         if ret != False:
             return ret
+        # 3 to a Straight Flush 	457; 467; 679; 78T; 79T
+        # Single Card: a Jack 	3 to a Straight Flush: 457 	
+        # Single Card: a Jack 	3 to a Straight Flush: 467 	
+        # Single Card: a Jack 	3 to a Straight Flush: 78T 	
+        # Single Card: a Jack 	3 to a Straight Flush: 79T 	
+        if hand.get3toStraightFlushE():
+            ret = hand.getSingleJack()
+            if ret != False:
+                return ret
+            return hand.get3toStraightFlushE()
         # 2 to a Straight(JA; QK)
         ret = hand.getJAorQK()
         if ret != False:
@@ -163,16 +173,16 @@ class PerfectStrategy:
         ret = hand.get3toStraightFlushF()
         if ret != False:
             return ret
+        # 2 to a Straight Flush: 34 	Garbage: Discard everything 	
+        # 2 to a Straight Flush: 35 	Garbage: Discard everything 	
+        ret = hand.get34or35suited()
+        if ret != False:
+            return ret
 
         return []
 
 
-# 2 to a Straight Flush: 34 	Garbage: Discard everything 	
-# 2 to a Straight Flush: 35 	Garbage: Discard everything 	
-# Single Card: a Jack 	3 to a Straight Flush: 457 	
-# Single Card: a Jack 	3 to a Straight Flush: 467 	
-# Single Card: a Jack 	3 to a Straight Flush: 78T 	
-# Single Card: a Jack 	3 to a Straight Flush: 79T 	
+
 # 2 to a Straight: JK 	3 to a Straight Flush: 78J 	
 # 2 to a Straight: JK 	3 to a Straight Flush: 79J 	
 # 3 to a Straight Flush: 457 	2 to a Straight: JK 	4♣5♣7♣J♦K♥

@@ -289,14 +289,26 @@ class Hand:
         return self.getXtoYranks(2, [ranks[10], ranks[0]])
 
     def get7TJsuited(self):
-        return self.getXtoYranks(3, ranks[6:7] + ranks[9:11])
+        return self.getXtoYranksFlush(3, ranks[6:7] + ranks[9:11])
     
     def get78Jsuited(self):
-        return self.getXtoYranks(3, ranks[6:8] + ranks[10:11])
+        return self.getXtoYranksFlush(3, ranks[6:8] + ranks[10:11])
 
     def get79Jsuited(self):
-        return self.getXtoYranks(3, [ranks[6], ranks[8], ranks[10]])
-    
+        return self.getXtoYranksFlush(3, [ranks[6], ranks[8], ranks[10]])
+
+    def get34or35suited(self):
+        for xRanks in [ranks[2:4], [ranks[2], ranks[4]]]:
+            ret = self.getXtoYranksFlush(2, xRanks)
+            if ret != False:
+                return ret
+        return False
+        
+    def get679suited(self):
+        return self.getXtoYranksFlush(3, ranks[5:7] + ranks[8:9])
+
+    def getSingleJack(self):
+        return self.getXtoYranks(1, [[ranks[0]])
     
 class Card:
     def __init__(self, suit, rank, pos):
