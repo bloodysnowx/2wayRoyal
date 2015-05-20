@@ -275,6 +275,28 @@ class Hand:
             if ret != False:
                 return ret
         return False
+
+    def getTKsuited(self):
+        return self.getXtoYranksFlush(2, [ranks[9], ranks[12]])
+    
+    def getKA(self):
+        return self.getXtoYranks(2, [ranks[12], ranks[0]])
+
+    def getQA(self):
+        return self.getXtoYranks(2, [ranks[11], ranks[0]])
+
+    def getJA(self):
+        return self.getXtoYranks(2, [ranks[10], ranks[0]])
+
+    def get7TJsuited(self):
+        return self.getXtoYranks(3, ranks[6:7] + ranks[9:11])
+    
+    def get78Jsuited(self):
+        return self.getXtoYranks(3, ranks[6:8] + ranks[10:11])
+
+    def get79Jsuited(self):
+        return self.getXtoYranks(3, [ranks[6], ranks[8], ranks[10]])
+    
     
 class Card:
     def __init__(self, suit, rank, pos):

@@ -1,6 +1,7 @@
 PATH = getBundlePath()
 if not PATH in sys.path: sys.path.append(PATH)
-execfile(PATH + 'strategy.py')
+execfile(PATH + 'basicStrategy.py')
+execfile(PATH + 'perfectStrategy.py')
 execfile(PATH + 'hand.py')
 
 from org.sikuli.basics.proxies import Vision
