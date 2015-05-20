@@ -103,13 +103,20 @@ class PerfectStrategy:
         ret = hand.get7TJsuited()
         if ret != False:
             return ret
+
         # ex 3 to a Straight Flush: 78J 	2 to a Straight: JQ 	7♣8♣J♣Q♦A♥
         ret = hand.get78Jsuited()
         if ret != False:
+            # 2 to a Straight: JK 	3 to a Straight Flush: 78J
+            if hand.getJK():
+                return hand.getJK()
             return ret
         # ex 3 to a Straight Flush: 79J 	2 to a Straight: JQ 	7♣9♣J♣Q♦A♥
         ret = hand.get79Jsuited()
         if ret != False:
+            # 2 to a Straight: JK 	3 to a Straight Flush: 79J
+            if hand.getJK():
+                return hand.getJK()
             return ret
         # ex 2 to a Straight(JQ)
         ret = hand.getJQ()
@@ -127,6 +134,9 @@ class PerfectStrategy:
         ret = hand.getTJsuited()
         if ret != False:
             return ret
+        # 3 to a Straight Flush: 457 	2 to a Straight: JK 	4♣5♣7♣J♦K♥
+        # 3 to a Straight Flush: 467 	2 to a Straight: JK 	4♣6♣7♣J♦K♥
+        # 3 to a Straight Flush: 679 	2 to a Straight: JK 	6♣7♣9♣J♦K♥
         # 2 to a Straight(JK)
         ret = hand.getJK()
         if ret != False:
@@ -181,13 +191,6 @@ class PerfectStrategy:
 
         return []
 
-
-
-# 2 to a Straight: JK 	3 to a Straight Flush: 78J 	
-# 2 to a Straight: JK 	3 to a Straight Flush: 79J 	
-# 3 to a Straight Flush: 457 	2 to a Straight: JK 	4♣5♣7♣J♦K♥
-# 3 to a Straight Flush: 467 	2 to a Straight: JK 	4♣6♣7♣J♦K♥
-# 3 to a Straight Flush: 679 	2 to a Straight: JK 	6♣7♣9♣J♦K♥
 # Single Card: a Jack 	3 to a Straight Flush: 568 	4♣5♦6♦8♦J♥
 # Single Card: a Jack 	3 to a Straight Flush: 578 	4♣5♦7♦8♦J♥
 # 3 to a Straight Flush: 789 	2 to a Royal Flush: QK 	7♣8♣9♣Q♦K♦
