@@ -38,7 +38,7 @@ def main():
     region = getCardArea()
     uncheckHoldAll(region)
     hand = readHand(region)
-    strategy = BasicStrategy()
+    strategy = PerfectStrategy()
     holdHand = strategy.execute(hand)
     hold(holdHand)
 
@@ -47,7 +47,6 @@ def hold(hands):
         click(hand.pos)
 
 def readHand(region):
-
     hand = []
     for suit in ["s", "h", "d", "c"]:
         for rank in ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"]:

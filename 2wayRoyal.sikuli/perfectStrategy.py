@@ -99,100 +99,90 @@ class PerfectStrategy:
         ret = hand.getJQK()
         if ret != False:
             return ret
-        # ex 3 to a Straight Flush: 7TJ
-        ret = hand.get7TJsuited()
-        if ret != False:
-            return ret
-
-        # ex 3 to a Straight Flush: 78J 	2 to a Straight: JQ 	7♣8♣J♣Q♦A♥
-        ret = hand.get78Jsuited()
-        if ret != False:
-            # 2 to a Straight: JK 	3 to a Straight Flush: 78J
-            if hand.getJK():
-                return hand.getJK()
-            return ret
-        # ex 3 to a Straight Flush: 79J 	2 to a Straight: JQ 	7♣9♣J♣Q♦A♥
-        ret = hand.get79Jsuited()
-        if ret != False:
-            # 2 to a Straight: JK 	3 to a Straight Flush: 79J
-            if hand.getJK():
-                return hand.getJK()
-            return ret
-        # ex 2 to a Straight(JQ)
+        # 2 to a Straight(JQ)
         ret = hand.getJQ()
         if ret != False:
+            exRet = hand.get78Jor79Jor7TJsuited()
+            if exRet != False:
+                return exRet
             return ret
         # 3 to a Straight Flush(A23; A24; A25; A34; A35; A45; 568; 578; 689; 78J; 79J; 7TJ; 89Q; 8TQ; 9TK)
         ret = hand.get3toStraightFlushD()
         if ret != False:
+            exRet = hand.get3toStraightFlushDex1()
+            if exRet != False:
+                return exRet
+            exRet = hand.getJK()
+            if exRet != False:
+                return exRet
+            exRet = hand.get78Jor79Jsuited()
+            if exRet != False:
+                return exRet
+            exRet = hand.getSingleJack()
+            if exRet != False:
+                return exRet
             return ret
-        # ex 2 to a Straight: JA
-        ret = hand.getJA()
-        if ret != False:
-            return ret
-        # ex 2 to a Royal Flush: TJ
-        ret = hand.getTJsuited()
-        if ret != False:
-            return ret
-        # 3 to a Straight Flush: 457 	2 to a Straight: JK 	4♣5♣7♣J♦K♥
-        # 3 to a Straight Flush: 467 	2 to a Straight: JK 	4♣6♣7♣J♦K♥
-        # 3 to a Straight Flush: 679 	2 to a Straight: JK 	6♣7♣9♣J♦K♥
         # 2 to a Straight(JK)
         ret = hand.getJK()
         if ret != False:
+            exRet = hand.getTJsuited()
+            if exRet != False:
+                return exRet
+            exRet = hand.get457or467or679suited()
+            if exRet != False:
+                return exRet
             return ret
-        # ex 3 to a Straight Flush(679)
-        ret = hand.get679suited()
+        # 2 to a Royal(TJ)
+        ret = hand.getTJsuited()
         if ret != False:
+            exRet = hand.getJA()
+            if exRet != False:
+                return exRet
             return ret
-        # 3 to a Straight Flush 	457; 467; 679; 78T; 79T
-        # Single Card: a Jack 	3 to a Straight Flush: 457 	
-        # Single Card: a Jack 	3 to a Straight Flush: 467 	
-        # Single Card: a Jack 	3 to a Straight Flush: 78T 	
-        # Single Card: a Jack 	3 to a Straight Flush: 79T 	
-        if hand.get3toStraightFlushE():
-            ret = hand.getSingleJack()
-            if ret != False:
-                return ret
-            return hand.get3toStraightFlushE()
+        # 3 to a Straight Flush(457; 467; 679; 78T; 79T)
+        ret = hand.get3toStraightFlushE()
+        if ret != False:
+            exRet = hand.get679suited()
+            if exRet != False:
+                return exRet
+            exRet = hand.getSingleJack()
+            if exRet != False:
+                return exRet
+            return ret
         # 2 to a Straight(JA; QK)
         ret = hand.getJAorQK()
         if ret != False:
+            exRet = hand.get567or678or789suited()
+            if exRet != False:
+                return exRet
             return ret
-        # ex 2 to a Straight(KA)
-        ret = hand.getKA()
+        # 2 to a Straight(KA), 2 to a Straight(QA)
+        ret = hand.getQAorKA()
         if ret != False:
             return ret
-        # ex 2 to a Royal(TQ)
+        # 2 to a Royal(TQ)
         ret = hand.getTQsuited()
         if ret != False:
-            return ret
-        ret = hand.getTKsuited()
-        # ex 2 to a Straight(QA)
-        ret = hand.getQA()
-        if ret != False:
-            return ret
-        # 2 to a Royal Flush: TK
-        if ret != False:
+            exRet = hand.getQA()
+            if exRet != False:
+                return exRet
             return ret
         # Single Card(J-A)
         ret = hand.getSingleJackOrBetter()
         if ret != False:
+            exRet = getSingleJorQorA()
+            if exRet != False:
+                return exRet
+            exRet = getTK()
+            if exRet != False:
+                return exRet
             return ret
         # 3 to a Straight Flush(347; 357; 367; 458; 468; 478; 569; 579; 589; 67T; 68T; 69T)
         ret = hand.get3toStraightFlushF()
         if ret != False:
             return ret
-        # 2 to a Straight Flush: 34 	Garbage: Discard everything 	
-        # 2 to a Straight Flush: 35 	Garbage: Discard everything 	
         ret = hand.get34or35suited()
         if ret != False:
             return ret
 
         return []
-
-# Single Card: a Jack 	3 to a Straight Flush: 568 	4♣5♦6♦8♦J♥
-# Single Card: a Jack 	3 to a Straight Flush: 578 	4♣5♦7♦8♦J♥
-# 3 to a Straight Flush: 789 	2 to a Royal Flush: QK 	7♣8♣9♣Q♦K♦
-# 3 to a Straight Flush: 567 	2 to a Royal Flush: JA 	5♣6♣7♣J♦A♦
-# 3 to a Straight Flush: 678 	2 to a Royal Flush: JA 	6♣7♣8♣J♦A♦
