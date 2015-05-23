@@ -133,7 +133,11 @@ class Hand:
         return self.getXtoFlush(4)
 
     def getXtoYranks(self, x, yRanks):
-        hits = flatten(map(lambda rank: filter(lambda card: card.rank == rank, self.cards), yRanks))
+        hits = []
+        for rank in yRanks:
+            hit = filter(lambda card: card.rank == rank, self.cards)
+            if len(hit) > 0:
+                hits += hit[0:1]
         if len(hits) == x:
             return hits
         return False
@@ -374,7 +378,7 @@ class Card:
         self.pos = pos
 
     def __str__(self):
-        return "suit: " + self.suit + ", rank:" + self.rank + ", pos:" + str(self.pos)
+        return "suit: " + self.suit + ", rank:" + self.rank
 
     def isEqual(self, suit, rank):
         return self.suit == suit and self.rank == rank

@@ -4,7 +4,11 @@ execfile(PATH + 'basicStrategy.py')
 execfile(PATH + 'perfectStrategy.py')
 execfile(PATH + 'hand.py')
 
+repeatCount = 10
+doubleUpCount = 2
+
 from org.sikuli.basics.proxies import Vision
+import time
 
 def setup():
     Vision.setParameter("MinTargetSize", 8)
@@ -17,8 +21,26 @@ def uncheckHoldAll(region):
 def uncheckHold(region):
     region.click("hold.png")
 
+def maxBet(region):
+    region.click("betMax.png")
+
+def deal(region):
+    region.click("deal.png")
+
+def waitDealt(region):
+    region.wait("deal.png")
+
+def waitDouble(region):
+    region.wait("1432362413762.png")
+
 def clickDouble(region):
     region.click("double.png")
+
+def clickCardForDouble(region):
+    region.click("1432362474843.png")
+
+def clickCollect(region):
+    region.click("1432363458064.png")
 
 def getWindow():
     switchApp("2 Ways Royal")
@@ -36,11 +58,42 @@ def main():
     setup()
     gameWindow = getWindow()
     region = getCardArea()
+    for i in range(0, repeatCount):
+        game(gameWindow, region)
+
+def logHands(hand, holdHand):
+    print(hand)
+    if len(holdHand) > 0:
+        print(reduce(lambda x, y: str(x) + ", " + str(y), holdHand))
+    else:
+        print("discard all")
+
+def game(gameWindow, region):
+    maxBet(gameWindow)
+    waitDealt(gameWindow)
+    time.sleep(2)
     uncheckHoldAll(region)
     hand = readHand(region)
     strategy = PerfectStrategy()
     holdHand = strategy.execute(hand)
+    logHands(hand, holdHand)
     hold(holdHand)
+    deal(gameWindow)
+    time.sleep(2)
+    tryDouble(gameWindow)
+
+def tryDouble(gameWindow):
+    for i in range(0, doubleUpCount):
+        if gameWindow.exists("1432362413762.png", 1):
+            clickDouble(gameWindow)
+            time.sleep(1)
+            clickCardForDouble(gameWindow)
+            time.sleep(2)
+        else:
+            return
+    if gameWindow.exists("1432362413762.png", 1):
+        clickCollect(gameWindow)
+        time.sleep(1)
 
 def hold(hands):
     for hand in hands:

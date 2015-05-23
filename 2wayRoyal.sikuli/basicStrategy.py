@@ -65,8 +65,8 @@ class BasicStrategy:
             return hand.get1Pair()
         # 4 to a Straight(2345-9TJQ)
         ret = hand.getOESD()
-        if hand.is1Pair():
-            return hand.get1Pair()
+        if ret != False:
+            return ret
         # 3 to a Straight Flush(89J; 8TJ; 8JQ; 9TJ; 9TQ; 9JQ)
         ret = hand.get3toStraightFlushA()
         if ret != False:
