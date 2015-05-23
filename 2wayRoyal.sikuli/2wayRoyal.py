@@ -31,16 +31,16 @@ def waitDealt(region):
     region.wait("deal.png")
 
 def waitDouble(region):
-    region.wait("1432362413762.png")
+    region.wait("doubleButton.png")
 
 def clickDouble(region):
     region.click("double.png")
 
 def clickCardForDouble(region):
-    region.click("1432362474843.png")
+    region.click("anyCard.png")
 
 def clickCollect(region):
-    region.click("1432363458064.png")
+    region.click("collect.png")
 
 def getWindow():
     switchApp("2 Ways Royal")
@@ -84,14 +84,14 @@ def game(gameWindow, region):
 
 def tryDouble(gameWindow):
     for i in range(0, doubleUpCount):
-        if gameWindow.exists("1432362413762.png", 1):
+        if gameWindow.exists("doubleButton.png", 1):
             clickDouble(gameWindow)
             time.sleep(1)
             clickCardForDouble(gameWindow)
             time.sleep(2)
         else:
             return
-    if gameWindow.exists("1432362413762.png", 1):
+    if gameWindow.exists("doubleButton.png", 1):
         clickCollect(gameWindow)
         time.sleep(1)
 
