@@ -97,6 +97,13 @@ class Hand:
             if len(hits) == x:
                 return hits
         return False
+
+    def getXtoYranksFlushList(self, x, yRanksList):
+        for yRanks in yRanksList:
+            ret = self.getXtoYranksFlush(x, yRanks)
+            if ret != False:
+                return ret
+        return False
         
     def get4toHighRoyal(self):
         return self.getXtoYranksFlush(4, aHighRanks)
@@ -106,11 +113,7 @@ class Hand:
 
     #4 to a Straight Flush 	A234; A235; A245; A345; 3457; 3467; 3567; 4567; 4568; 4578; 4678; 5678;5679; 5689; 5789; 6789; 678T; 679T; 689T; 789T; 789J; 78TJ; 79TJ; 89TJ;89TQ; 89JQ; 8TJQ; 9TJQ; 9TJK; 9TQK; 9JQK
     def get4toStraightFlush(self):
-        for xRanks in (map(lambda i: ranks[i:i+5], range(9)) + [aHighRanks]):
-            ret = self.getXtoYranksFlush(4, xRanks)
-            if ret != False:
-                return ret
-        return False
+        return self.getXtoYranksFlushList(4, (map(lambda i: ranks[i:i+5], range(9)) + [aHighRanks]))
 
     #3 to a Royal Flush 	TJA; TJQ; TJK; TQA; TQK; TKA; JQA; JQK; JKA; QKA
     def get3toHighRoyal(self):
@@ -135,25 +138,24 @@ class Hand:
             return hits
         return False
 
+    def getXtoYranksList(self, x, yRanksList):
+        for yRanks in yRanksList:
+            ret = self.getXtoYranks(x, yRanks)
+            if ret != False:
+                return ret
+        return False
+
     #4 to a Straight 	TJQK
     def getTJQK(self):
         return self.getXtoYranks(4, ranks[9:13])
 
     #4 to a Straight 	2345; 3456; 4567; 5678; 6789; 789T; 89TJ; 9TJQ
     def getOESD(self):
-        for xRanks in map(lambda i: ranks[i:i+4], range(1, 9)):
-            ret = self.getXtoYranks(4, xRanks)
-            if ret != False:
-                return ret
-        return False
+        return self.getXtoYranksList(4, map(lambda i: ranks[i:i+4], range(1, 9)))
 
     #3 to a Straight Flush 	89J; 8TJ; 8JQ; 9TJ; 9TQ; 9JQ        
     def get3toStraightFlushA(self):
-        for xRanks in [[ranks[7], ranks[8], ranks[10]], [ranks[7], ranks[9], ranks[10]], [ranks[7], ranks[10], ranks[11]], [ranks[8], ranks[9], ranks[10]], [ranks[8], ranks[9], ranks[11]], [ranks[8], ranks[10], ranks[11]]]:
-            ret = self.getXtoYranksFlush(3, xRanks)
-            if ret!= False:
-                return ret
-        return False
+        return self.getXtoYranksFlushList(3, [[ranks[7], ranks[8], ranks[10]], [ranks[7], ranks[9], ranks[10]], [ranks[7], ranks[10], ranks[11]], [ranks[8], ranks[9], ranks[10]], [ranks[8], ranks[9], ranks[11]], [ranks[8], ranks[10], ranks[11]]])
 
     #4 to a Straight 	JQKA
     def getJQKA(self):
@@ -170,10 +172,16 @@ class Hand:
     #2 to a Royal Flush 	JA; JQ; JK; QK
     def get2toHighRoyalA(self):
         for xRanks in [[ranks[10], ranks[0]], ranks[10:12], [ranks[10], ranks[12]], ranks[11:]]:
-            ret = self.getXtoYranksFlush(3, xRanks)
+            ret = self.getXtoYranksFlush(2, xRanks)
             if ret!= False:
                 return ret
         return False
+
+    def getQKorJAsuited(self):
+        return self.getXtoYranksFlushList(2, [[ranks[10], ranks[0]], ranks[11:]])
+
+    def get567or678or789suited(self):
+        return self.getXtoYranksFlushList(3, [ranks[4:7], ranks[5:8], ranks[6:9]])
 
     #3 to a Straight Flush 	567; 678; 789; 89T
     def get3toStraightFlushC(self):
@@ -234,6 +242,9 @@ class Hand:
             if ret != False:
                 return ret
         return False
+
+    def get679suited(self):
+        return self.getXtoYranksFlush(3, ranks[5:7] + ranks[8:9])
     
     #2 to a Straight 	JA; QK
     def getJAorQK(self):
@@ -288,6 +299,9 @@ class Hand:
     def getJA(self):
         return self.getXtoYranks(2, [ranks[10], ranks[0]])
 
+    def getJQ(self):
+        return self.getXtoYranks(2, ranks[10:12])
+
     def get7TJsuited(self):
         return self.getXtoYranksFlush(3, ranks[6:7] + ranks[9:11])
     
@@ -296,6 +310,36 @@ class Hand:
 
     def get79Jsuited(self):
         return self.getXtoYranksFlush(3, [ranks[6], ranks[8], ranks[10]])
+
+    def get78Jor79Jor7TJsuited(self):
+        for xRanks in [ranks[6:7] + ranks[9:11], [ranks[6], ranks[8], ranks[10]], ranks[6:8] + ranks[10:11]]:
+            ret = self.getXtoYranksFlush(3, xRanks)
+            if ret != False:
+                return ret
+        return False
+
+    def get3toStraightFlushDex1(self):
+        for xRanks in [ranks[:3], ranks[:2] + ranks[3:4], ranks[:2] + ranks[4:5], ranks[0:1] + ranks[2:4], [ranks[0], ranks[2], ranks[4]],
+                       ranks[0:1] + ranks[3:5], ranks[5:6] + ranks[7:9], 
+                       ranks[6:7] + ranks[9:11], ranks[7:9] + ranks[11:12], [ranks[7], ranks[9], ranks[11]], ranks[8:10], ranks[12:]]:
+            ret = self.getXtoYranksFlush(3, xRanks)
+            if ret != False:
+                return ret
+        return False
+
+    def get78Jor79Jsuited(self):
+        for xRanks in [[ranks[6], ranks[8], ranks[10]], ranks[6:8] + ranks[10:11]]:
+            ret = self.getXtoYranksFlush(3, xRanks)
+            if ret != False:
+                return ret
+        return False
+
+    def get568or578suited(sefl):
+        for xRanks in [ranks[4:6] + ranks[7:8], ranks[4:5] + ranks[6:8]]:
+            ret = self.getXtoYranksFlush(3, xRanks)
+            if ret != False:
+                return ret
+        return False
 
     def get34or35suited(self):
         for xRanks in [ranks[2:4], [ranks[2], ranks[4]]]:
@@ -308,8 +352,21 @@ class Hand:
         return self.getXtoYranksFlush(3, ranks[5:7] + ranks[8:9])
 
     def getSingleJack(self):
-        return self.getXtoYranks(1, [[ranks[0]])
-    
+        return self.getXtoYranks(1, [[ranks[10]]])
+
+    def getSingleKing(self):
+        return self.getXtoYranks(1, [[ranks[12]]])
+
+    def getSingleJorQorA(self):
+        return self.getXtoYranksList(1, [ranks[10:11], ranks[11:12], ranks[0:1]])
+
+    def get457or467or679suited(self):
+        for xRanks in [ranks[4:6] + ranks[7:8], ranks[4:5] + ranks[6:8]]:
+            ret = self.getXtoYranksFlush(3, xRanks)
+            if ret != False:
+                return ret
+        return False
+                                 
 class Card:
     def __init__(self, suit, rank, pos):
         self.suit = suit
