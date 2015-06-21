@@ -93,11 +93,15 @@ class Hand:
 
     def getXtoYranksFlush(self, x, yRanks):
         for suit in suits:
-            hits = flatten(map(lambda rank: filter(lambda card: card.isEqual(suit, rank), self.cards), yRanks))
+            hits = []
+            for rank in yRanks:
+                hit = filter(lambda card: card.isEqual(suit, rank), self.cards)
+                if len(hit) == 1:
+                    hits += hit
             if len(hits) == x:
                 return hits
         return False
-
+        
     def getXtoYranksFlushList(self, x, yRanksList):
         for yRanks in yRanksList:
             ret = self.getXtoYranksFlush(x, yRanks)
@@ -189,8 +193,8 @@ class Hand:
 
     #3 to a Straight Flush 	567; 678; 789; 89T
     def get3toStraightFlushC(self):
-        for xRanks in map(lambda i: ranks[i:i+4], range(4, 8)):
-            ret = self.getXtoYranks(3, xRanks)
+        for xRanks in map(lambda i: ranks[i:i+3], range(4, 8)):
+            ret = self.getXtoYranksFlush(3, xRanks)
             if ret != False:
                 return ret
         return False

@@ -34,6 +34,9 @@ sQsKdJsAcT = Hand([['s', '12', 0], ['s', '13', 0], ['d', '11', 0], ['s', '01', 0
 cAs2s3s4s5 = Hand([['c', '01', 0], ['s', '02', 0], ['s', '03', 0], ['s', '04', 0], ['s', '05', 0]])
 c2d3s5h6h4 = Hand([['c', '02', 0], ['d', '03', 0], ['s', '05', 0], ['h', '06', 0], ['h', '04', 0]])
 
+sJd9dQc6c7 = Hand([['s', '11', 0], ['d', '09', 0], ['d', '12', 0], ['c', '06', 0], ['c', '07', 0]])
+s5sJh8hTd3 = Hand([['s', '05', 0], ['s', '11', 0], ['h', '08', 0], ['h', '10', 0], ['d', '03', 0]])
+
 class HandTest(unittest.TestCase):
     def test_isFlush(self):
         self.assertEqual(map(lambda hand: hand.isFlush(), [sAs2s3s4s5, cAs2s3s4s5]), [True, False])
@@ -131,6 +134,7 @@ class HandTest(unittest.TestCase):
         return True
 
     def test_get3toStraightFlushA(self):
+        self.assertFalse(s5sJh8hTd3.get3toStraightFlushA())
         return True
 
     def test_getJQKA(self):
@@ -170,6 +174,7 @@ class HandTest(unittest.TestCase):
         return False
     #3 to a Straight Flush 	457; 467; 679; 78T; 79T
     def test_get3toStraightFlushE(self):
+        self.assertFalse(sJd9dQc6c7.get3toStraightFlushE())
         return False
     #2 to a Straight 	JA; QK
     def test_getJAorQK(self):
@@ -179,7 +184,8 @@ class HandTest(unittest.TestCase):
         return False
     #2 to a Royal Flush 	TQ
     def test_getTQsuited(self):
-        return False
+        self.assertCardsEqual(sAsQsKsJsT.getTQsuited(), [['s', '10', 0], ['s', '12', 0]])
+        self.assertFalse(sQsKdJsAcT.getTQsuited())
     #Single Card 	a Jack; a Queen; a King; an Ace
     def test_getSingleJackOrBetter(self):
         return False

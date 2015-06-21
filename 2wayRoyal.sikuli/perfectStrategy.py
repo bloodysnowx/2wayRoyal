@@ -173,7 +173,7 @@ class PerfectStrategy:
             exRet = hand.getSingleJorQorA()
             if exRet != False:
                 return exRet
-            exRet = hand.getTK()
+            exRet = hand.getTKsuited()
             if exRet != False:
                 return exRet
             return ret
