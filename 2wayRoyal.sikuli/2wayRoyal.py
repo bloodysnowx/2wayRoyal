@@ -3,6 +3,7 @@ if not PATH in sys.path: sys.path.append(PATH)
 execfile(PATH + 'basicStrategy.py')
 execfile(PATH + 'perfectStrategy.py')
 execfile(PATH + 'hand.py')
+execfile(PATH + 'mail.py')
 
 repeatCount = 10
 doubleUpCount = 2
@@ -53,13 +54,6 @@ def getCardArea():
     width = gameWindow.getW() * 11 / 20
     height = gameWindow.getH() / 4
     return Region(x, y, width, height)
-    
-def main():
-    setup()
-    gameWindow = getWindow()
-    region = getCardArea()
-    for i in range(0, repeatCount):
-        game(gameWindow, region)
 
 def logHands(hand, holdHand):
     print(hand)
@@ -67,20 +61,6 @@ def logHands(hand, holdHand):
         print(reduce(lambda x, y: str(x) + ", " + str(y), holdHand))
     else:
         print("discard all")
-
-def game(gameWindow, region):
-    maxBet(gameWindow)
-    waitDealt(gameWindow)
-    time.sleep(2)
-    uncheckHoldAll(region)
-    hand = readHand(region)
-    strategy = PerfectStrategy()
-    holdHand = strategy.execute(hand)
-    logHands(hand, holdHand)
-    hold(holdHand)
-    deal(gameWindow)
-    time.sleep(2)
-    tryDouble(gameWindow)
 
 def tryDouble(gameWindow):
     for i in range(0, doubleUpCount):
@@ -110,6 +90,27 @@ def readHand(region):
                     if len(hand) == 5:
                         return Hand(hand)
     return Hand(hand)
+
+def main():
+    setup()
+    gameWindow = getWindow()
+    region = getCardArea()
+    for i in range(0, repeatCount):
+        game(gameWindow, region)
+
+def game(gameWindow, region):
+    maxBet(gameWindow)
+    waitDealt(gameWindow)
+    time.sleep(2)
+    uncheckHoldAll(region)
+    hand = readHand(region)
+    strategy = PerfectStrategy()
+    holdHand = strategy.execute(hand)
+    logHands(hand, holdHand)
+    hold(holdHand)
+    deal(gameWindow)
+    time.sleep(2)
+    tryDouble(gameWindow)
     
 main()
 

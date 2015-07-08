@@ -1,0 +1,35 @@
+01. Pat Hand 	Full House; Straight Flush; Low Royal Flush; High Royal Flush
+02. 4 of a Kind 	
+03. 4 to a Royal Flush 	TJQA; TJQK; TJKA; TQKA; JQKA
+04. 4 to a Straight Flush 	2345; 2346; 2356; 2456; 3456
+05. 3 of a Kind 	222; 333; 444; 555; 666; 777; 888; 999; TTT; JJJ; QQQ; KKK; AAA
+06. Pat Hand 	Straight; Flush
+07. 2 Pair 	
+08. 4 to a Straight Flush 	
+09. 1 Pair 	JJ; QQ; KK; AA
+10. 3 to a Royal Flush 	TJA; TJQ; TJK; TQA; TQK; TKA; JQA; JQK; JKA; QKA
+11. 3 to a Straight Flush 	234; 235; 236; 245; 246; 256; 345; 346; 356; 456
+12. 4 to a Flush 	
+13. 4 to a Straight 	TJQK
+14. 1 Pair 	22; 33; 44; 55; 66; 77; 88; 99; TT
+15. 4 to a Straight 	2345; 3456; 4567; 5678; 6789; 789T; 89TJ; 9TJQ
+16. 3 to a Straight Flush 	89J; 8TJ; 8JQ; 9TJ; 9TQ; 9JQ
+17. 4 to a Straight 	JQKA
+18. 3 to a Straight Flush 	9JK; 9QK
+19. 2 to a Royal Flush 	JA; JQ; JK; QK
+20. 3 to a Straight Flush 	567; 678; 789; 89T
+21. 2 to a Royal Flush 	QA; KA
+22. 4 to a Straight 	9JQK; TJQA; TJKA; TQKA
+23. 3 to a Straight 	JQK
+24. 2 to a Straight 	JQ
+25. 3 to a Straight Flush 	A23; A24; A25; A34; A35; A45; 568; 578; 689; 78J; 79J; 7TJ; 89Q; 8TQ; 9TK
+26. 2 to a Straight 	JK
+27. 2 to a Royal Flush 	TJ
+28. 3 to a Straight Flush 	457; 467; 679; 78T; 79T
+29. 2 to a Straight 	JA; QK
+30. 2 to a Straight 	QA; KA
+31. 2 to a Royal Flush 	TQ
+32. Single Card 	a Jack; a Queen; a King; an Ace
+33. 3 to a Straight Flush 	347; 357; 367; 458; 468; 478; 569; 579; 589; 67T; 68T; 69T
+34. 2 to a Straight Flush 	45; 56
+35. Garbage 	Discard everything
