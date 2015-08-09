@@ -1,6 +1,6 @@
 自動的にMaxBet/Hold/Deal/DoubleUpを実行するバージョンです
 
-1. Zipang Casinoで2wayRoyalを開いて、Betまで実行してください
+1. Zipang Casinoで2wayRoyalを開いてください
 2. 管理者権限でrunIDE.cmdを実行してください
 3. ファイル -> 開く
 4. 2wayRoyal.sikuliのフォルダを選択して開いてください
@@ -11,7 +11,16 @@ repeatCount = 10
 7. 8行目の
 doubleUpCount = 2
 は2回までダブルアップすることを意味します。必要に応じて値を変更してください
-8. 実行ボタンを押してください
+8. 9行目の
+mailAddress = 'from@test.com'
+は送信するGmailのアカウントアドレスを意味します。必要に応じて値を設定してください
+9. 10行目の
+mailPassword = 'password'
+は送信するGmailのアカウントパスワードを意味します。必要に応じて値を設定してください
+10. 11行目の目の
+targetAddress = 'target@test.com'
+は送信先メールアドレスを意味します。必要に応じて値を設定してください
+11. 実行ボタンを押してください
 
 ex
 

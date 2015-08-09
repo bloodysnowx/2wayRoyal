@@ -7,6 +7,9 @@ execfile(PATH + 'mail.py')
 
 repeatCount = 10
 doubleUpCount = 2
+mailAddress = 'from@test.com'
+mailPassword = 'password'
+targetAddress = 'target@test.com'
 
 from org.sikuli.basics.proxies import Vision
 import time
@@ -80,6 +83,7 @@ def hold(hands):
         click(hand.pos)
 
 def readHand(region):
+    
     hand = []
     for suit in ["s", "h", "d", "c"]:
         for rank in ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13"]:
@@ -95,8 +99,18 @@ def main():
     setup()
     gameWindow = getWindow()
     region = getCardArea()
+    
+    mailer = Mailer(mailAddress, mailPassword, targetAddress)
+
     for i in range(0, repeatCount):
-        game(gameWindow, region)
+        try:
+            game(gameWindow, region)
+        except:
+            capture = gameWindow.getScreen().capture(gameWindow)
+            mailer.execute('2wayRoyal', '2wayRoyal end by exception.', capture)
+
+    capture = gameWindow.getScreen().capture(gameWindow)
+    mailer.execute('2wayRoyal', '2wayRoyal end by count.', capture)
 
 def game(gameWindow, region):
     maxBet(gameWindow)
