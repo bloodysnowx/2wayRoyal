@@ -108,6 +108,7 @@ def main():
         except:
             capture = gameWindow.getScreen().capture(gameWindow)
             mailer.execute('2wayRoyal', '2wayRoyal end by exception.', capture)
+            return
 
     capture = gameWindow.getScreen().capture(gameWindow)
     mailer.execute('2wayRoyal', '2wayRoyal end by count.', capture)
